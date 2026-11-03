@@ -2,7 +2,8 @@ pipeline {
     agent any
 
     environment {
-        VENV_DIR = '.venv'
+        VENV_DIR    = '.venv'
+        PYTHON      = 'C:\\Users\\ary31\\AppData\\Local\\Programs\\Python\\Python312\\python.exe'
     }
 
     stages {
@@ -18,7 +19,7 @@ pipeline {
             steps {
                 echo '🐍 Creating virtual environment and installing dependencies...'
                 bat '''
-                    python -m venv %VENV_DIR%
+                    "%PYTHON%" -m venv %VENV_DIR%
                     call %VENV_DIR%\\Scripts\\activate.bat
                     pip install -r requirements.txt
                 '''
@@ -51,7 +52,7 @@ pipeline {
                 echo '✅ Verifying app can be imported...'
                 bat '''
                     call %VENV_DIR%\\Scripts\\activate.bat
-                    python -c "from app.main import app; print('App import: OK')"
+                    "%PYTHON%" -c "from app.main import app; print('App import: OK')"
                 '''
             }
         }
