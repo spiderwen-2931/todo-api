@@ -1,0 +1,218 @@
+{
+	"info": {
+		"_postman_id": "todo-api-collection",
+		"name": "TODO API — DevOps Assignment Component 1",
+		"description": "Complete endpoint collection for the TODO REST API built with FastAPI.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8080",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "1. Health Check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/health",
+					"host": ["{{base_url}}"],
+					"path": ["health"]
+				},
+				"description": "Check if the API is running."
+			}
+		},
+		{
+			"name": "2. Create TODO — Buy Milk",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Buy Milk\",\n    \"description\": \"Get 2 litres from the store\",\n    \"completed\": false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/todos/",
+					"host": ["{{base_url}}"],
+					"path": ["todos", ""]
+				},
+				"description": "Create a new TODO item."
+			}
+		},
+		{
+			"name": "3. Create TODO — Read Book",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Read Book\",\n    \"description\": \"Finish reading Clean Code by Robert Martin\",\n    \"completed\": false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/todos/",
+					"host": ["{{base_url}}"],
+					"path": ["todos", ""]
+				},
+				"description": "Create another TODO item."
+			}
+		},
+		{
+			"name": "4. Create TODO — Push to GitHub",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Push code to GitHub\",\n    \"description\": \"Commit Jenkinsfile and push to main branch\",\n    \"completed\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/todos/",
+					"host": ["{{base_url}}"],
+					"path": ["todos", ""]
+				},
+				"description": "Create a completed TODO item."
+			}
+		},
+		{
+			"name": "5. List All TODOs",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/todos/",
+					"host": ["{{base_url}}"],
+					"path": ["todos", ""]
+				},
+				"description": "Retrieve all TODO items."
+			}
+		},
+		{
+			"name": "6. Get TODO by ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/todos/1",
+					"host": ["{{base_url}}"],
+					"path": ["todos", "1"]
+				},
+				"description": "Get a single TODO item by its ID."
+			}
+		},
+		{
+			"name": "7. Update TODO — Mark Completed",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Buy Milk & Bread\",\n    \"completed\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/todos/1",
+					"host": ["{{base_url}}"],
+					"path": ["todos", "1"]
+				},
+				"description": "Update an existing TODO — change title and mark as completed."
+			}
+		},
+		{
+			"name": "8. Delete TODO",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/todos/3",
+					"host": ["{{base_url}}"],
+					"path": ["todos", "3"]
+				},
+				"description": "Delete a TODO item by ID. Returns 204 No Content on success."
+			}
+		},
+		{
+			"name": "9. Get TODO — 404 Not Found",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/todos/999",
+					"host": ["{{base_url}}"],
+					"path": ["todos", "999"]
+				},
+				"description": "Try to get a TODO that doesn't exist — should return 404."
+			}
+		},
+		{
+			"name": "10. Create TODO — 422 Validation Error",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/todos/",
+					"host": ["{{base_url}}"],
+					"path": ["todos", ""]
+				},
+				"description": "Try to create a TODO with empty title — should return 422 Validation Error."
+			}
+		}
+	]
+}
+

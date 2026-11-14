@@ -1,0 +1,10 @@
+---
+- name: Restart app
+  shell: |
+    if [ -f {{ app_dir }}/app.pid ]; then
+      kill -9 $(cat {{ app_dir }}/app.pid) 2>/dev/null || true
+    fi
+    nohup {{ app_dir }}/venv/bin/uvicorn app.main:app --host 0.0.0.0 --port {{ app_port }} > {{ app_dir }}/app.log 2>&1 &
+    echo $! > {{ app_dir }}/app.pid
+  args:
+    chdir: "{{ app_dir }}"
