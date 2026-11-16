@@ -1,25 +1,27 @@
+
 pipeline {
     agent any
 
     environment {
         // Python virtual environment path
         VENV_DIR = '.venv'
+        PYTHON = 'C:\\Users\\ary31\\AppData\\Local\\Programs\\Python\\Python312\\python.exe'
     }
 
     stages {
 
         stage('Checkout') {
             steps {
-                echo '📥 Checking out source code from GitHub...'
+                echo 'Checking out source code from GitHub...'
                 checkout scm
             }
         }
 
         stage('Setup Python Environment') {
             steps {
-                echo '🐍 Creating virtual environment and installing dependencies...'
+                echo 'Creating virtual environment and installing dependencies...'
                 bat '''
-                    python -m venv %VENV_DIR%
+                    "%PYTHON%" -m venv %VENV_DIR%
                     call %VENV_DIR%\\Scripts\\activate.bat
                     pip install -r requirements.txt
                 '''
@@ -28,7 +30,7 @@ pipeline {
 
         stage('Lint') {
             steps {
-                echo '🔍 Running linter (flake8)...'
+                echo 'Running linter (flake8)...'
                 bat '''
                     call %VENV_DIR%\\Scripts\\activate.bat
                     pip install flake8 --quiet
@@ -39,7 +41,7 @@ pipeline {
 
         stage('Test') {
             steps {
-                echo '🧪 Running pytest with coverage...'
+                echo 'Running pytest with coverage...'
                 bat '''
                     call %VENV_DIR%\\Scripts\\activate.bat
                     pytest tests/ -v --tb=short --cov=app --cov-report=xml --cov-report=term
@@ -47,18 +49,17 @@ pipeline {
             }
             post {
                 always {
-                    // Publish coverage report (if Coverage plugin installed in Jenkins)
-                    echo '📊 Tests completed.'
+                    echo 'Tests completed.'
                 }
             }
         }
 
         stage('Build Verification') {
             steps {
-                echo '✅ Verifying app can start...'
+                echo 'Verifying app can be imported...'
                 bat '''
                     call %VENV_DIR%\\Scripts\\activate.bat
-                    python -c "from app.main import app; print('App import: OK')"
+                    "%PYTHON%" -c "from app.main import app; print('App import: OK')"
                 '''
             }
         }
@@ -66,13 +67,13 @@ pipeline {
 
     post {
         success {
-            echo '🎉 Pipeline PASSED — All stages completed successfully!'
+            echo 'Pipeline PASSED — All stages completed successfully!'
         }
         failure {
-            echo '❌ Pipeline FAILED — Check logs above for errors.'
+            echo 'Pipeline FAILED — Check logs above for errors.'
         }
         always {
-            echo '🧹 Cleaning up workspace...'
+            echo 'Cleaning up workspace...'
             cleanWs()
         }
     }
